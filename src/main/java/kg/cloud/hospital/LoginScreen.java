@@ -12,6 +12,9 @@ import com.vaadin.ui.LoginForm.LoginEvent;
 import com.vaadin.ui.Window.Notification;
 import com.vaadin.ui.Panel;
 import com.vaadin.ui.VerticalLayout;
+import java.security.NoSuchAlgorithmException;
+import org.apache.shiro.crypto.hash.Md5Hash;
+import org.apache.shiro.crypto.hash.Sha256Hash;
 
 public class LoginScreen extends VerticalLayout{
 	/**
@@ -64,9 +67,21 @@ public class LoginScreen extends VerticalLayout{
 		public void onLogin(LoginEvent event){
 			String username=event.getLoginParameter("username");
 			String password=event.getLoginParameter("password");
-			try
-			{
-				MyVaadinApplication.getInstance().login(username, password);
+                        
+                        /*PasswordEncryptionService passService = new PasswordEncryptionService();
+                        String encryptedPass = "";
+                        try {
+                            encryptedPass = passService.getEncryptedPassword(password);
+                            loginForm.getWindow().showNotification("Encrypted Pass 1 = " + encryptedPass);
+                            
+                        } catch (NoSuchAlgorithmException noSuchAlgorithm) {
+                            
+                        }*/
+                        //String encryptedPass  = new Md5Hash(password).toString();
+                        String encryptedPass  = new Sha256Hash(password).toBase64();
+                        try
+			{                            
+                            MyVaadinApplication.getInstance().login(username, encryptedPass);
 
 				// Switch to the protected view
 				app.getMainWindow().setContent(new AuthenticatedScreen(app));
