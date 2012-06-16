@@ -78,7 +78,7 @@ public class LoginScreen extends VerticalLayout{
                             
                         }*/
                         //String encryptedPass  = new Md5Hash(password).toString();
-                        String encryptedPass  = new Sha256Hash(password).toBase64();
+                        String encryptedPass  = new Sha256Hash(password).toHex();
                         try
 			{                            
                             MyVaadinApplication.getInstance().login(username, encryptedPass);
